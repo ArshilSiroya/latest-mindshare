@@ -548,6 +548,9 @@ export default function Home() {
                 color: "#fff",
                 marginTop: { xs: "40px", md: "67px" },
                 backgroundColor: "#0084FD",
+                "&:hover": {
+                  background: "#8C9DE6",
+                },
                 borderRadius: "53px",
                 fontSize: "16px",
                 fontWeight: "600",
