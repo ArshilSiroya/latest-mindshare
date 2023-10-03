@@ -24,7 +24,7 @@ const Header = () => {
     "contact",
     "past",
     // "profile",
-    "event",
+    // "event",
   ];
 
   const handleOpenNavMenu = (event: any) => {
