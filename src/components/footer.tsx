@@ -76,7 +76,7 @@ const Footer = () => {
                 cursor: "pointer",
               }}
             >
-              | Terms & Conditions
+              | terms & Conditions
             </Button>
           </Link>
           <Link href="https://www.google.com" target="_blank">
