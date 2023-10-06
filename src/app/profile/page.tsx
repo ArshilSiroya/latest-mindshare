@@ -5,7 +5,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import ReCAPTCHA from "react-google-recaptcha";
 const initialValues = {
   name: "",
   lastname: "",
@@ -16,7 +16,6 @@ const initialValues = {
   confirmpassword: "",
   checkbox: "",
 };
-
 const validateSchema = Yup.object({
   name: Yup.string().min(2).max(25).required("Please enter your name"),
   lastname: Yup.string().min(2).max(25).required("Please enter your Last name"),
@@ -44,7 +43,9 @@ const Page = () => {
       },
     });
   console.log("hhhh", errors);
-
+  function onChange(value) {
+    console.log("Captcha value:", value);
+  }
   return (
     <Box>
       <Header />
@@ -77,187 +78,203 @@ const Page = () => {
           Create your account here
         </Typography>
         <form onSubmit={handleSubmit}>
-          <Box sx={{ marginTop: "56px" }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", md: "row" },
-              }}
-            >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ marginTop: "56px" }}>
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  flexDirection: { xs: "column", md: "row" },
                 }}
               >
-                <TextField
-                  id="outlined-basic"
-                  label="Name"
-                  sx={{ width: { xs: "311px", md: "400px" } }}
-                  name="name"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.name && touched.name ? (
-                  <Typography sx={{ color: "red" }}>{errors.name} </Typography>
-                ) : null}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Name"
+                    sx={{ width: { xs: "311px", md: "400px" } }}
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  {errors.name && touched.name ? (
+                    <Typography sx={{ color: "red" }}>{errors.name}</Typography>
+                  ) : null}
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Last Name"
+                    name="lastname"
+                    value={values.lastname}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    sx={{
+                      marginLeft: { md: "24px" },
+                      marginTop: { xs: "16px", sm: "16px", md: "0" },
+                      width: { xs: "311px", md: "400px" },
+                    }}
+                  />
+                  {errors.lastname && touched.lastname ? (
+                    <Typography sx={{ color: "red" }}>
+                      {errors.lastname}{" "}
+                    </Typography>
+                  ) : null}
+                </Box>
               </Box>
               <Box
                 sx={{
+                  widtg: "824px",
                   display: "flex",
+                  gap: "16px",
                   flexDirection: "column",
                   alignItems: "center",
+                  marginTop: "16px",
                 }}
               >
                 <TextField
                   id="outlined-basic"
-                  label="Last Name"
-                  name="lastname"
-                  value={values.lastname}
+                  label="E-mail"
+                  name="email"
+                  value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  sx={{
-                    marginLeft: { md: "24px" },
-                    marginTop: { xs: "16px", sm: "16px", md: "0" },
-                    width: { xs: "311px", md: "400px" },
-                  }}
+                  sx={{ width: { xs: "311px", md: "100%" } }}
                 />
-                {errors.lastname && touched.lastname ? (
+                {errors.email && touched.email ? (
+                  <Typography sx={{ color: "red" }}>{errors.email} </Typography>
+                ) : null}
+                <TextField
+                  id="outlined-basic"
+                  label="Country of Residence"
+                  name="country"
+                  value={values.country}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  sx={{ width: { xs: "311px", md: "100%" } }}
+                />
+                {errors.country && touched.country ? (
                   <Typography sx={{ color: "red" }}>
-                    {errors.lastname}{" "}
+                    {errors.country}
+                  </Typography>
+                ) : null}
+                <TextField
+                  id="outlined-basic"
+                  label="Wallet"
+                  name="wallet"
+                  value={values.wallet}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  sx={{ width: { xs: "311px", md: "100%" } }}
+                />
+                {errors.wallet && touched.wallet ? (
+                  <Typography sx={{ color: "red" }}>{errors.wallet}</Typography>
+                ) : null}
+
+                <TextField
+                  id="outlined-basic"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  label="Password"
+                  sx={{ width: { xs: "311px", md: "100%" } }}
+                />
+                {errors.password && touched.password ? (
+                  <Typography sx={{ color: "red" }}>
+                    {errors.password}{" "}
+                  </Typography>
+                ) : null}
+
+                <TextField
+                  id="outlined-basic"
+                  name="confirmpassword"
+                  value={values.confirmpassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  label="Confirm Password"
+                  sx={{ width: { xs: "311px", md: "100%" } }}
+                />
+                {errors.confirmpassword && touched.confirmpassword ? (
+                  <Typography sx={{ color: "red" }}>
+                    {errors.confirmpassword}{" "}
                   </Typography>
                 ) : null}
               </Box>
             </Box>
             <Box
               sx={{
-                widtg: "824px",
+                width: { xs: "311px", md: "unset" },
                 display: "flex",
-                gap: "16px",
+                alignItems: "center",
                 flexDirection: "column",
-                alignItems: "center",
-                marginTop: "16px",
+                marginTop: "32px",
               }}
             >
-              <TextField
-                id="outlined-basic"
-                label="E-mail"
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                sx={{ width: { xs: "311px", md: "100%" } }}
-              />
-              {errors.email && touched.email ? (
-                <Typography sx={{ color: "red" }}> {errors.email} </Typography>
-              ) : null}
-              <TextField
-                id="outlined-basic"
-                label="Country of Residence"
-                name="country"
-                value={values.country}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                sx={{ width: { xs: "311px", md: "100%" } }}
-              />
-              {errors.country && touched.country ? (
-                <Typography sx={{ color: "red" }}>{errors.country} </Typography>
-              ) : null}
-              <TextField
-                id="outlined-basic"
-                label="Wallet"
-                name="wallet"
-                value={values.wallet}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                sx={{ width: { xs: "311px", md: "100%" } }}
-              />
-              {errors.wallet && touched.wallet ? (
-                <Typography sx={{ color: "red" }}> {errors.wallet} </Typography>
-              ) : null}
-
-              <TextField
-                id="outlined-basic"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label="Password"
-                sx={{ width: { xs: "311px", md: "100%" } }}
-              />
-              {errors.password && touched.password ? (
-                <Typography sx={{ color: "red" }}>
-                  {errors.password}{" "}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: { xs: "5px", md: "0pxx" },
+                }}
+              >
+                <Checkbox
+                  name="checkbox"
+                  value={values.confirmpassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <Typography sx={{ marginRight: { xs: "20px", md: "unset" } }}>
+                  By signing up, you agree to VEIOVIA Terms and condition &
+                  Privacy Policy
                 </Typography>
-              ) : null}
-
-              <TextField
-                id="outlined-basic"
-                name="confirmpassword"
-                value={values.confirmpassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label="Confirm Password"
-                sx={{ width: { xs: "311px", md: "100%" } }}
-              />
-              {errors.confirmpassword && touched.confirmpassword ? (
-                <Typography sx={{ color: "red" }}>
-                  {errors.confirmpassword}{" "}
-                </Typography>
+              </Box>
+              {errors.checkbox && touched.checkbox ? (
+                <Typography sx={{ color: "red" }}>{errors.checkbox}</Typography>
               ) : null}
             </Box>
-          </Box>
-          <Box
-            sx={{
-              width: { xs: "311px", md: "unset" },
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              marginTop: "32px",
-            }}
-          >
-            <Box
+            <Box sx={{ marginTop: "32px" }}>
+              <ReCAPTCHA
+                sitekey="6LeWJn8oAAAAAEY5I3a7saTrssqgbzAMJEeq9_WP"
+                onChange={onChange}
+              />
+            </Box>
+            <Button
+              size="large"
+              type="submit"
               sx={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: { xs: "5px", md: "0pxx" },
+                color: "#fff",
+                width: "332px",
+                backgroundColor: "#0084FD",
+                marginLeft: "7px",
+                borderRadius: "53px",
+                paddingInline: "20px",
+                fontSize: "16px",
+                fontWeight: "600",
+                marginTop: "32px",
+                border: "1px solid white",
               }}
             >
-              <Checkbox
-                name="checkbox"
-                value={values.confirmpassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <Typography sx={{ marginRight: { xs: "20px", md: "unset" } }}>
-                By signing up, you agree to VEIOVIA Terms and condition &
-                Privacy Policy
-              </Typography>
-            </Box>
-            {errors.checkbox && touched.checkbox ? (
-              <Typography sx={{ color: "red" }}> {errors.checkbox}</Typography>
-            ) : null}
+              Create account
+            </Button>
           </Box>
-          <Button
-            size="large"
-            type="submit"
-            sx={{
-              color: "#fff",
-              width: "332px",
-              backgroundColor: "#0084FD",
-              marginLeft: "7px",
-              borderRadius: "53px",
-              paddingInline: "20px",
-              fontSize: "16px",
-              fontWeight: "600",
-              marginTop: "32px",
-              border: "1px solid white",
-            }}
-          >
-            Create account
-          </Button>
         </form>
       </Box>
       <Footer />
